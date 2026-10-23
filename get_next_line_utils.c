@@ -1,64 +1,58 @@
-# include "get_next_line.h"
+#include "get_nex_line.h"
 
-size_t	ft_strlen(char const *s)
+int	has_newline(char *stash)
 {
-	size_t	i;
-	
+	if (!stash)
+		return (0);
+	while (*stash)
+		if (*stash++ == '\n')
+			return (1);
+	return (0);
+}
+
+char	*ft_strjoin(char *stash, char *buffer)
+{
+	char	*new_stash;
+	int		i;
+	int		j;
+
+	if (!stash)
+		stash = ft_calloc(1, sizeof(char));
+	new_stash = malloc(sizeof(char) * (ft_strlen(stash) + ft_strlen(buffer) + 1));
+	if (!new_stash)
+		return (NULL);
+	i = -1;
+	while (stash[++i])
+		new_stash[i] = stash[i];
+	j = 0;
+	while (buffer[j])
+		new_stash[i++] = buffer[j++];
+	new_stash[i] = '\0';
+	return (free(stash), new_stash);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*p
+	int		i;
+
+	if (count && size > (size_t)-1 / count)
+		return (NULL);
+	p = malloc(count * size);
+	if (!p)
+		return (NULL);
 	i = 0;
-	while (s[i])
-		i++;
+	while (i < count * size)
+		p[i] = '\0';
+	return (p);
+}
+
+int	ft_strlen(char *s)
+{
+	int i;
+
+	i = -1;
+	while (s[++i])
+		;
 	return (i);
-}
-
-char	*ft_strchr(char *s, char c)
-{
-	while (*s)
-		if (*s++ == c)
-			return (s - 1);
-	return (NULL);
-}
-
-size_t	ft_strlcpy(char *dst, char const *src, size_t dstsize)
-{
-	size_t	slen;
-	size_t	i;
-
-	slen = ft_strlen(src);
-	i = 0;
-	while (i < dstsize - 1 && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (slen);
-}
-
-char	*slicer(char *start, char *end)
-{
-	size_t	size;
-	char	*s;
-
-	size = end - start + 1;
-	s = malloc(size + 1);
-	if (!s)
-		return (NULL);
-	ft_strlcpy(s, start, size + 1);
-	return (s);
-}
-
-char	*joiner(char *s1, char *s2)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*s;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	s = malloc(len1 + len2 + 1);
-	if (!s)
-		return (NULL);
-	ft_strlcpy(s, s1, len1 + 1);
-	ft_strlcpy(s + len1, s2, len2 + 1);
-	return (s);
 }
