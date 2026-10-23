@@ -6,8 +6,9 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 5
 
 char	*get_next_line(int fd);
 int		has_newline(char *stash);
