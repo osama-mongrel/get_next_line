@@ -2,15 +2,21 @@
 
 char	*read_from_file(int fd, char *stash)
 {
-	char	buffer[BUFFER_SIZE];
-	int		bytes_read;
+	char	*buffer;
+	ssize_t	bytes_read;
 
 	bytes_read = 1;
 	while (!has_newline(stash) && bytes_read != 0)
 	{
-		bytes_read = (int)read(fd, buffer, BUFFER_SIZE - 1);
-		if ((!stash && bytes_read == 0) || bytes_read == -1)
+		buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		if (!buffer)
 			return (NULL);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if ((!stash && bytes_read == 0) || bytes_read == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
 		buffer[bytes_read] = '\0';
 		stash = ft_strjoin(stash, buffer);
 	}
@@ -64,10 +70,10 @@ char	*update_stash(char *stash, char *line)
 	j = 0;
 	while (stash[i])
 		new_stash[j++] = stash[i++];
+	new_stash[j] = '\0';
 	free(stash);
 	return (new_stash);
 }
-		
 
 char	*get_next_line(int fd)
 {
@@ -75,6 +81,8 @@ char	*get_next_line(int fd)
 	char		*temp;
 	char		*line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	temp = read_from_file(fd, stash);
 	if (!temp)
 	{
@@ -84,7 +92,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	stash = temp;
-	printf("%s", stash);
 	line = extract_line(stash);
 	stash = update_stash(stash, line);
 	return (line);

@@ -8,7 +8,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-# define BUFFER_SIZE 5
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
 char	*get_next_line(int fd);
 int		has_newline(char *stash);

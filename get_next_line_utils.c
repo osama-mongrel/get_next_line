@@ -15,33 +15,36 @@ int	has_newline(char *stash)
 
 char	*ft_strjoin(char *stash, char *buffer)
 {
-	char	*new_stash;
+	char	*new;
 	int		i;
 	int		j;
 
+	if (!stash && !buffer)
+		return (NULL);
 	if (!stash)
 		stash = ft_calloc(1, sizeof(char));
-	new_stash = malloc(sizeof(char) * (ft_strlen(stash) + ft_strlen(buffer) + 1));
-	if (!new_stash)
+	new = malloc(sizeof(char) * (ft_strlen(stash) + ft_strlen(buffer) + 1));
+	if (!new)
 		return (NULL);
 	i = 0;
 	while (stash[i])
 	{
-		new_stash[i] = stash[i];
+		new[i] = stash[i];
 		i++;
 	}
 	j = 0;
 	while (buffer[j])
-		new_stash[i++] = buffer[j++];
-	new_stash[i] = '\0';
+		new[i++] = buffer[j++];
+	new[i] = '\0';
 	free(stash);
-	return (new_stash);
+	free(buffer);
+	return (new);
 }
 
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*p;
-	int		i;
+	size_t	i;
 
 	if (count && size > (size_t)-1 / count)
 		return (NULL);
@@ -56,7 +59,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 int	ft_strlen(char *s)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (s[++i])
