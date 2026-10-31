@@ -86,9 +86,9 @@ char	*get_next_line(int fd)
 	temp = read_from_file(fd, stash[fd]);
 	if (!temp)
 	{
-		if (stash)
-			free(stash);
-		stash = NULL;
+		if (stash[fd])
+			free(stash[fd]);
+		stash[fd] = NULL;
 		return (NULL);
 	}
 	stash[fd] = temp;
